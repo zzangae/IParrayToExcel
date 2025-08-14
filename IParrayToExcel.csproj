@@ -1,0 +1,26 @@
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <PlatformTarget>x64</PlatformTarget> <!-- 또는 x64 -->
+    <OutputType>Library</OutputType>
+    <RootNamespace>IpToolsLib</RootNamespace>
+    <AssemblyName>IParrayToExcel</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <OutputPath>bin\Release\</OutputPath>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <ComVisible>true</ComVisible>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Runtime.InteropServices" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="IpTools.cs" />
+  </ItemGroup>
+
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
