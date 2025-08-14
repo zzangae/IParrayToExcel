@@ -190,5 +190,44 @@ namespace IpToolsLib
                 result[i, 0] = items[i];
             return result;
         }
+
+        // IPTools.cs 내부에 추가
+        public object[] SortIPColumn(object[] ipList, bool ascending = true, bool removeDuplicates = false)
+        {
+            var ipWithKeys = new List<(string ip, double key)>();
+
+            foreach (var obj in ipList)
+            {
+                if (obj == null) continue;
+                string ip = obj.ToString().Trim();
+                double key = ToLong(ip);
+                ipWithKeys.Add((ip, key));
+            }
+
+            var sorted = ascending
+            ? ipWithKeys.OrderBy(x => x.key)
+            : ipWithKeys.OrderByDescending(x => x.key);
+
+            if (removeDuplicates)
+                sorted = sorted.DistinctBy(x => x.key); // .NET 6 이상
+
+            return sorted.Select(x => (object)x.ip).ToArray();
+        }
+
+        private double ToLong(string ip)
+        {
+            var parts = ip.Split('.');
+            if (parts.Length != 4) return double.MaxValue;
+
+            if (int.TryParse(parts[0], out int a) &&
+                int.TryParse(parts[1], out int b) &&
+                int.TryParse(parts[2], out int c) &&
+                int.TryParse(parts[3], out int d))
+            {
+                return (double)(a * 16777216 + b * 65536 + c * 256 + d);
+            }
+            return double.MaxValue;
+        }
+
     }
 }
